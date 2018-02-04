@@ -9,6 +9,7 @@ setup(
         'Flask-Alchemy',
         'Flask-Migrate',
         'psycopg2',
+        'flask-login',
     ],
     setup_requires=[
         'pytest-runner',
