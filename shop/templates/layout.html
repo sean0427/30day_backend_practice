@@ -1,0 +1,18 @@
+<!doctype html>
+<title>Shop</title>
+<div class=page>
+    <h1>shop</h1>
+        <h3>Hello {{ current_user.name }}</h3>
+    <div class=metanav>
+        {% if current_user.is_authenticated %}
+        <h3>Hello {{ current_user.name }}</h3>
+        <a href="{{ url_for('logout') }}">log out</a>
+        {% else %}
+        <a href="{{ url_for('login') }}">log in</a>
+        {% endif %}
+    </div>
+    {% for message in get_flashed_messages() %}
+    <b class=flash>{{ message }}</b>
+    {% endfor %}
+    {% block body %}{% endblock %}
+</div>
