@@ -1,12 +1,12 @@
 from flask import redirect, request, abort, render_template, flash, url_for
 from flask_login import login_required, login_user, logout_user
 
-from shop import app, login_manager
+from shop import app, login_manager, db
 from shop.model.Number import Number
 
 @login_manager.user_loader
 def load_user(email):
-    return Number.query.filter(Number.e_mail == email).one_or_none()
+    return db.session.query(Number).filter(Number.e_mail == email).one_or_none()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
