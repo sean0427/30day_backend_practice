@@ -4,7 +4,8 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from shop.model.Number import Number, Base
+from shop.model.BaseModel import BaseModel
+from shop.model.Number import Number
 
 MEMORY_ENGINE = 'sqlite:///:memory:'
 TEST_NUMBER_PASSWORD = 'aaa'
@@ -22,7 +23,7 @@ class TestNumberModel():
     @pytest.fixture(scope="function")
     def session(self, request):
         engine = create_engine(MEMORY_ENGINE)
-        Base.metadata.create_all(engine)
+        BaseModel.metadata.create_all(engine)
 
         Session = sessionmaker(bind=engine)
         session = Session()
@@ -33,7 +34,7 @@ class TestNumberModel():
 
         yield session
 
-        Base.metadata.drop_all(engine)
+        BaseModel.metadata.drop_all(engine)
 
     def get_default_number(self, session):
         number = session.query(Number).filter(Number.e_mail == TEST_NUMBER_E_MAIL).one_or_none()
