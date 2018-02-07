@@ -3,7 +3,7 @@
 
 from sqlalchemy import Column, Integer, Text
 
-from shop.model.BaseModel import BaseModel
+from .BaseModel import BaseModel
 
 class Number(BaseModel):
     __tablename__ = 'number'
