@@ -1,14 +1,16 @@
-from flask import request
+from flask import request, Blueprint, jsonify
 
-from shop import app, db
+from shop import db
 from shop.model.LanguageProduct import LanguageProduct
 
-@app.route('/api/echo/<string:argument>', methods=['get', 'post'])
+from . import api
+
+@api.route('/echo/<string:argument>', methods=['GET', 'POST'])
 def echo(argument):
     """ basic api argument test, for check api is work"""
     return argument
 
-@app.route('/api/products', methods=['GET'])
+@api.route('/products', methods=['GET'])
 def get_list_of_products():
     page = request.args.get('page', default=1, type=int)
     limited = request.args.get('limited', default=1, type=int)
@@ -18,9 +20,9 @@ def get_list_of_products():
         .filter(LanguageProduct.language_id == lng)\
         .all()
 
-    return '{}'.format(products)
+    return jsonify(products)
 
-@app.route('/api/product/<id>', methods=['GET', 'POST'])
+@api.route('/products/<id>', methods=['GET', 'PUT', 'DELETE'])
 def get_product(id):
     lng = request.args.get('lng', default=0, type=int)
     product = db.session.query(LanguageProduct)\
@@ -28,4 +30,6 @@ def get_product(id):
         .filter(LanguageProduct.language_id == lng)\
         .one_or_none()
 
-    return product if product else ''
+    result = product if product else None
+
+    return jsonify(result)

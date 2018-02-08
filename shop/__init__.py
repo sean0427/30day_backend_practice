@@ -10,6 +10,9 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-import shop.api
 import shop.index
 import shop.login
+
+from shop.api import api 
+
+app.register_blueprint(api, url_prefix='/api')
