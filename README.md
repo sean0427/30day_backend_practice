@@ -14,6 +14,9 @@ Path
 - tests: unittest files
     - conftst.py: pytest's global configure file:
 - function_tests: function test folder, need start server.
+- sql
+    - create_database.sql: database create file
+    - static_data.sql: database basic data
 
 Devplopment 
 ===
@@ -30,17 +33,20 @@ Enviroment
 Dependency
 ===
 
-- [flask](http://flask.pocoo.org)
+Flask Package
 ---
-    - [flask-login](https://flask-login.readthedocs.io/en/latest/)
+    - [flask](http://flask.pocoo.org)
+    - [flask-login](https://flask-login.readthedocs.io/)
 
-database
+Database
 ---
+
     - [SQLAlchemy](https://www.sqlalchemy.org/)
     - Flask-Migrate: flask dom with SQLAlchemy
     - psycopg2: connect postgreSQL database
 
-test
+Test
 ---
+
     - [pytest](https://docs.pytest.org)
     - [selenium](http://www.seleniumframework.com)
