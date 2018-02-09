@@ -33,20 +33,20 @@ Enviroment
 Dependency
 ===
 
-Flask Package
+Flask
 ---
-    - [flask](http://flask.pocoo.org)
-    - [flask-login](https://flask-login.readthedocs.io/)
+- [flask](http://flask.pocoo.org)
+- [flask-login](https://flask-login.readthedocs.io/)
 
 Database
 ---
 
-    - [SQLAlchemy](https://www.sqlalchemy.org/)
-    - Flask-Migrate: flask dom with SQLAlchemy
-    - psycopg2: connect postgreSQL database
+- [SQLAlchemy](https://www.sqlalchemy.org/)
+- Flask-Migrate: flask ORM with SQLAlchemy
+- psycopg2: connect postgreSQL database
 
 Test
 ---
 
-    - [pytest](https://docs.pytest.org)
-    - [selenium](http://www.seleniumframework.com)
+- [pytest](https://docs.pytest.org)
+- [selenium](http://www.seleniumframework.com)
