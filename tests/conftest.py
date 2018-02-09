@@ -3,12 +3,18 @@ import pytest
 import tempfile
 
 import shop
+from shop.model.BaseModel import BaseModel
+
+MEMORY_ENGINE = 'sqlite:///:memory:'
+
 @pytest.fixture
 def app():
-    db_fd, shop.app.config['DATABASE'] =tempfile.mkstemp()
+    shop.app.config['SQLALCHEMY_DATABASE_URI'] = MEMORY_ENGINE
     shop.app.testing = True
 
+    BaseModel.metadata.create_all(shop.db.engine)
     yield shop.app.test_client()
 
-    os.close(db_fd)
-    os.unlink(shop.app.config['DATABASE'])
+    shop.db.session.remove()
+    shop.db.drop_all()
+
