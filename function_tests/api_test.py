@@ -4,23 +4,23 @@
 import pytest
 from selenium import webdriver
 
+ROOT = 'http://127.0.0.1:5000/api/'
+
 URL_LIST = [
-        'http://127.0.0.1:5000',
-        'http://127.0.0.1:5000/login'
-        ]
+        'products',
+        'product/1'
+]
 
 class TestAPI:
     @pytest.fixture(scope='function', params=URL_LIST)
     def driver(self, request):
         driver = webdriver.Firefox() 
-        driver.get(request.param)
+        driver.get('{}/{}'.format(ROOT, request.param))
 
-        def fin():
-            """ teardown """
-            driver.quit()
+        yield driver
 
-        print("Test URL {}".format(request.param))
-        return driver 
+        #teardown
+        driver.quit()
 
     def test_api_basic(self, driver):
         pre = driver.find_elements_by_tag_name('body')
