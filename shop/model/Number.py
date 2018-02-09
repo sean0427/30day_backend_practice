@@ -1,28 +1,27 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from sqlalchemy import Column, Integer, Text
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+from .BaseModel import BaseModel
 
-class Number(Base):
+class Number(BaseModel):
     __tablename__ = 'number'
     is_active = True
     is_anonymous = False
     is_authenticated = True
 
-    id = Column(Integer, primary_key=True, nullable=False, unique=True)
     password = Column(Text, nullable=False)
     e_mail = Column(Text, nullable=False, unique=True)
     user_classification_id = Column(Integer, nullable=False)
 
+    def __init__(self, password, e_mail, user_classification_id):
+        self.password = password
+        self.e_mail = e_mail
+        self.user_classification_id = user_classification_id
+
     def get_id(self):
         return self.e_mail
-
-    def __repr__(self):
-       """Define a base way to print models"""
-       return '%s(%s)' % (self.__class__.__name__, {
-           column: value
-           for column, value in dict(self).items()
-           })
 
     def __iter__(self):
         yield 'id', self.id
