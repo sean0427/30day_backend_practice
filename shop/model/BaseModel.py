@@ -26,4 +26,7 @@ class _Base():
     def __eq__(self, other):
         return isinstance(other, self.__class__) and other.id == self.id
 
+    def serialize(self):
+        return dict(self)
+
 BaseModel = declarative_base(cls=_Base)

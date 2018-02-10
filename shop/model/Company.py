@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import json
 from sqlalchemy import Column, Integer, Text
 
 from .BaseModel import BaseModel
@@ -11,7 +12,7 @@ class Company(BaseModel):
     name = Column(Text, nullable=False, unique=True)
     address = Column(Text)
     telephone = Column(Text(10))
-    contant_person_name = (Text(10))
+    contant_person_name = Column(Text(10))
 
     def __init__(self, name, address, telephone, contant_person_name):
         self.name = name
