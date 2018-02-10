@@ -7,7 +7,7 @@ from shop.model.BaseModel import BaseModel
 
 MEMORY_ENGINE = 'sqlite:///:memory:'
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def app():
     shop.app.config['SQLALCHEMY_DATABASE_URI'] = MEMORY_ENGINE
     shop.app.testing = True
@@ -17,4 +17,3 @@ def app():
 
     shop.db.session.remove()
     shop.db.drop_all()
-
