@@ -2,6 +2,11 @@ Back-End Pratice (TBD)
 ===
 Use TDD to practice how to learn how to write backend, use python and flask.
 
+Build
+===
+master: [![CircleCI](https://circleci.com/gh/sean0427/backend_practice/tree/master.svg?style=svg)](https://circleci.com/gh/sean0427/backend_practice/tree/master)
+dev: [![CircleCI](https://circleci.com/gh/sean0427/backend_practice/tree/dev.svg?style=svg)](https://circleci.com/gh/sean0427/backend_practice/tree/dev)
+
 Path
 ===
 - shop: project folder.
