@@ -10,15 +10,15 @@ from . import api
 from shop import db
 from shop.model.Product import Product
 
-def exact_request(request, product=None):
-    type_id = request.form['type_id']
-    manufacturing = request.form['manufacturing']
+def exact_request(json, product=None):
+    type_id = json['type_id']
+    manufacturing = json['manufacturing']
 
     if not product:
         return Product(type_id, manufacturing)
 
-    product.type_id = type_id | product.type_id
-    product.manufacturing = manufacturing | product.manufacturing
+    product.type_id = type_id or product.type_id
+    product.manufacturing = manufacturing or product.manufacturing
 
     return product
 
@@ -28,7 +28,7 @@ def get_list_of_products():
     limited = request.args.get('limited', default=1, type=int)
 
     if request.method == 'POST':
-        return helper.append(exact_request(request))
+        return helper.append(exact_request(request.json))
 
     return helper.select_all(Product)
 
@@ -44,7 +44,7 @@ def get_product(id):
     elif request.method == 'DELETE':
         return helper.delete(product)
     elif request.method == 'PUT':
-        product = exact_request(request, product)
+        product = exact_request(request.json, product)
         return helper.update(product)
 
     return helper.bad_request()

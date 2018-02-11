@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import json
 import pytest
 from http import HTTPStatus
 
@@ -16,11 +17,16 @@ TEST_COMPANIES_DATA = dict(
         )
 
 TEST_PRODUCT_DATA = dict(type_id=1, manufacturing=1)
+CONTENT_TYPE = 'application/json'
 
 APIS = [
         dict(path='companies', data=TEST_COMPANIES_DATA),
         dict(path='products', data=TEST_PRODUCT_DATA)
 ]
+
+#consts
+EMPTY_JSON_ARRAY = '[]\n'
+EMPTY_JSON = '{}\n'
 
 def test_echo(app):
     response = app.get('api/echo/{}'.format(TEST_TEXT), follow_redirects=True)
@@ -42,36 +48,47 @@ def api_param(request, app):
 class TestAPIS:
     """ To test shop/api/*"""
 
-    def assert_response_data(self, response):
+    def assert_response_data(self, response=None, data=None, new_data=None):
         """ check test data in response data"""
-        data = response.get_data(as_text=True)
-        for key, value in self.data.items():
-            assert str(value) in data
+
+        new_data = new_data or self.data
+
+        if not data:
+            if response:
+                data = json.loads(response.get_data(as_text=True))
+            else:
+                assert false
+
+        for key in self.data.keys():
+            assert data[key] == new_data[key]
 
     def test_get_empty_mutil(self):
         response = self.app.get(self.path, follow_redirects=True)
 
         assert response.status_code == HTTPStatus.OK, 'read success alway ok.'
-        assert response.get_data(as_text=True) == '[]\n', 'Test empty list.'
+        assert response.get_data(as_text=True) == EMPTY_JSON_ARRAY, 'Test empty list.'
 
-    def test_get_company_not_found(self):
+    def test_get_by_id_not_found(self):
         response = self.app.get(self.single_path, follow_redirects=True)
 
         assert response.status_code == HTTPStatus.NOT_FOUND, 'Get not found.'
-        assert response.get_data(as_text=True) == '',  'Test get '
+        assert response.get_data(as_text=True) == EMPTY_JSON, 'Test get '
 
     def test_create(self):
-        response = self.app.post(self.path, data=self.data, follow_redirects=True)
+        response = self.app.post(
+                self.path, data=json.dumps(self.data),
+                follow_redirects=True, content_type=CONTENT_TYPE
+                )
 
         assert response.status_code == HTTPStatus.CREATED, 'Create status code.'
         self.assert_response_data(response)
-
 
     def test_get_mutil(self):
         response = self.app.get(self.path, follow_redirects=True)
 
         assert response.status_code == HTTPStatus.OK, 'Get list of Companies status code.'
-        self.assert_response_data(response)
+        result = json.loads(response.get_data(as_text=True))
+        self.assert_response_data(data=result[0])
 
     def test_get(self):
         response = self.app.get(self.single_path, follow_redirects=True)
@@ -80,7 +97,17 @@ class TestAPIS:
         self.assert_response_data(response)
 
     def test_update(self):
-        pass
+        """ TODO it work only on product"""
+        new_data = self.data
+        #new_data['name'] = TEST_TEXT
+
+        response = self.app.put(
+                self.single_path, data=json.dumps(self.data),
+                follow_redirects=True, content_type=CONTENT_TYPE
+                )
+
+        assert response.status_code == HTTPStatus.CREATED, 'Update status code.'
+        self.assert_response_data(response, new_data=new_data)
 
     def test_delete(self):
         response = self.app.delete(self.single_path, follow_redirects=True)
@@ -93,4 +120,4 @@ class TestAPIS:
         response = self.app.get(self.path, follow_redirects=True)
 
         assert response.status_code == HTTPStatus.OK
-        assert response.get_data(as_text=True) == '[]\n'
+        assert response.get_data(as_text=True) == EMPTY_JSON_ARRAY
