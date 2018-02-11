@@ -18,13 +18,8 @@ def delete(model):
     return jsonify(model.serialize()), HTTPStatus.NO_CONTENT
 
 def update(model):
-    db.session.update(model)
     db.session.commit()
     return jsonify(model.serialize()), HTTPStatus.CREATED
-
-def select_all(cls):
-    return jsonify([ model.serialize() for model in db.session.query(cls).all() ]),\
-            HTTPStatus.OK
 
 def select_by_id(cls, id):
     return db.session.query(cls)\
@@ -32,7 +27,11 @@ def select_by_id(cls, id):
             .one_or_none()
 
 def not_found():
-    return '', HTTPStatus.NOT_FOUND
+    return jsonify(), HTTPStatus.NOT_FOUND
 
 def bad_request():
-    return '', HTTPStatus.BAD_REQUEST
+    return jsonify(), HTTPStatus.BAD_REQUEST
+
+def select_all(cls):
+    return jsonify([ model.serialize() for model in db.session.query(cls).all() ]),\
+            HTTPStatus.OK
