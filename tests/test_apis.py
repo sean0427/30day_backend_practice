@@ -20,8 +20,8 @@ TEST_PRODUCT_DATA = dict(type_id=1, manufacturing=1)
 CONTENT_TYPE = 'application/json'
 
 APIS = [
-        dict(path='companies', data=TEST_COMPANIES_DATA),
-        dict(path='products', data=TEST_PRODUCT_DATA)
+        dict(path='companies', data=TEST_COMPANIES_DATA, update_key='name', update_value=TEST_TEXT),
+        dict(path='products', data=TEST_PRODUCT_DATA, update_key='type_id', update_value=2)
 ]
 
 #consts
@@ -40,6 +40,9 @@ def api_param(request, app):
         request.cls.path = 'api/{}'.format(request.param['path'])
         request.cls.single_path = 'api/{}/{}'.format(request.param['path'], TEST_ID)
         request.cls.data = request.param['data']
+        #TODO workaround
+        request.cls.update_key = request.param['update_key']
+        request.cls.update_value = request.param['update_value']
 
     yield
     #not do anything on teardwon
@@ -97,9 +100,9 @@ class TestAPIS:
         self.assert_response_data(response)
 
     def test_update(self):
-        """ TODO it work only on product"""
+        """ TODO workaround update key and value save on class"""
         new_data = self.data
-        #new_data['name'] = TEST_TEXT
+        new_data[self.update_key] = self.update_value
 
         response = self.app.put(
                 self.single_path, data=json.dumps(self.data),
