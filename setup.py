@@ -2,20 +2,21 @@ from setuptools import setup
 
 setup(
     name='shop',
+    version='0.1',
     packages=['shop'],
     include_package_data=True,
     install_requires=[
-        'flask',
-        'Flask-Alchemy',
+        'flask>=0.12',
+        'Flask-SQLAlchemy>=2.3',
         'Flask-Migrate',
         'psycopg2',
-        'flask-login',
+        'flask-login>=0.4',
     ],
     setup_requires=[
         'pytest-runner',
     ],
     tests_require=[
-        'pytest',
+        'pytest>=3.4',
         'selenium',
     ],
 )
