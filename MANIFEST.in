@@ -1,2 +1,2 @@
-graft flaskr/templates
-graft flaskr/static
+graft shop/templates
+graft shop/static
