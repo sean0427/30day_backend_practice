@@ -8,14 +8,20 @@ jobs:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.3-browsers
+      - image: circleci/python:3.6.4-jessie-node-browsers
+
+      - image: circleci/postgres:9.5.10-postgis
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
 
-    working_directory: ~/repo
+    working_directory: ~/shop
+    branches:
+        only:
+            - master
+            - dev
 
     steps:
       - checkout
@@ -47,11 +53,9 @@ jobs:
       - run:
           name: run tests
           command: |
-            . venv/bin/activate
+           . venv/bin/activate
            pytest ./tests 
-           pytest ./function_tests
 
       - store_artifacts:
           path: test-reports
           destination: test-reports
-          
