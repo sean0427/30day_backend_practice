@@ -41,6 +41,10 @@ def test_echo(app):
     response = app.get('api/echo/{}'.format(TEST_TEXT), follow_redirects=True)
     assert TEST_TEXT in response.get_data(as_text=True), 'Test Echo'
 
+def test_product_type_api(app):
+    response = app.get('api/product_type', follow_redirects=True)
+    assert EMPTY_JSON_ARRAY == response.get_data(as_text=True), 'Test Product Type'
+
 @pytest.fixture(scope='class', params=APIS, autouse=True)
 def api_param(request, app):
     if request.cls is not None:
