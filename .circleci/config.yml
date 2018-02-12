@@ -9,15 +9,17 @@ jobs:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.6.4-jessie-node-browsers
+        environment:
+            APP_RUNNING_ENV = CI
+            FLASK_APP = shop
 
-      - image: circleci/postgres:9.5.10-postgis
-      
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
+      - image: circleci/postgres:10.1-postgis-ram
 
-    working_directory: ~/shop
+    working_directory: ~/circle_build
     branches:
         only:
             - master
@@ -38,23 +40,42 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            python setup.py develop 
+            python setup.py develop
 
       - save_cache:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-        
+
+      - run:
+          name: wait for database
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: psql setting without password
+          command:
+              sudo -u postgres psql -p 5432 -c "create user ubuntu with password 'ubuntu';"
+              sudo -u postgres psql -p 5432 -c "alter user ubuntu with superuser;"
+
+      - run:
+          name: create database tables
+          command:
+              psql circle_test -f sql/create_database.sql
+
       # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
       - run:
           name: run tests
           command: |
            . venv/bin/activate
            python setup.py test
+
+      # - run:
+      #     name: run function tests
+      #     command: |
+      #      . venv/bin/activate
+      #      python setup.py test
+      #      flask run
+      #      pytest function_tests
 
       - store_artifacts:
           path: test-reports
