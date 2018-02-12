@@ -14,7 +14,6 @@ running_config = os.getenv('APP_RUNNING_ENV', '')
 
 if running_config == 'CI':
     app.config.from_object('config.ci')
-    app.config.SECRET_KEY = os.getenv('SECRET_KEY', 'secrey_key')
 elif running_config == 'DEV':
     app.config.from_object('config.dev')
 else:
