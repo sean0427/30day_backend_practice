@@ -21,7 +21,7 @@ else:
 
 print('running config file {}'.format(running_config))
 
-app.config.from_pyfile('config.py')
+app.config.from_pyfile('config.py', silent=True)
 
 db = SQLAlchemy(app)
 
