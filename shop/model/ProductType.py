@@ -15,4 +15,4 @@ class ProductType(BaseModel):
 
     def __iter__(self):
         yield 'id', self.id
-        yield 'name', selt.name
+        yield 'name', self.name

@@ -16,5 +16,5 @@ class Language(BaseModel):
         self.code = code
 
     def __iter__(self):
-        yield 'name', name
-        yield 'code', code
+        yield 'name', self.name
+        yield 'code', self.code
