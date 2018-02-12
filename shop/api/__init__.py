@@ -7,6 +7,7 @@ api = Blueprint('api', __name__)
 
 from . import products
 from . import companies
+from . import language_products
 
 @api.route('/echo/<string:argument>', methods=['GET', 'POST'])
 def echo(argument):

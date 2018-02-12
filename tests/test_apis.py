@@ -14,19 +14,28 @@ TEST_COMPANIES_DATA = dict(
         address='TEST_ADDRESS',
         telephone='000-0000',
         contant_person_name='jack',
-        )
+)
 
 TEST_PRODUCT_DATA = dict(type_id=1, manufacturing=1)
-CONTENT_TYPE = 'application/json'
+
+TEST_LANGUAGE_PRODUCT_DATA = dict(
+        product_id = TEST_ID,
+        language_id = TEST_ID,
+        name = 'TEST_NAME',
+        describe = TEST_TEXT,
+        image = 'http://testtest.test.jpg'
+)
 
 APIS = [
         dict(path='companies', data=TEST_COMPANIES_DATA, update_key='name', update_value=TEST_TEXT),
-        dict(path='products', data=TEST_PRODUCT_DATA, update_key='type_id', update_value=2)
+        dict(path='products', data=TEST_PRODUCT_DATA, update_key='type_id', update_value=2),
+        dict(path='language_products', data=TEST_LANGUAGE_PRODUCT_DATA, update_key='product_id', update_value=2)
 ]
 
 #consts
 EMPTY_JSON_ARRAY = '[]\n'
 EMPTY_JSON = '{}\n'
+CONTENT_TYPE = 'application/json'
 
 def test_echo(app):
     response = app.get('api/echo/{}'.format(TEST_TEXT), follow_redirects=True)
