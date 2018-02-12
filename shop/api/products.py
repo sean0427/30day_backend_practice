@@ -7,7 +7,6 @@ from flask import request, jsonify
 from . import api_orm_helper as helper
 from . import api
 
-from shop import db
 from shop.model.Product import Product
 
 def exact_request(json, product=None):
