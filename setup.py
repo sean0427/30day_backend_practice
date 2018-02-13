@@ -11,6 +11,7 @@ setup(
         'Flask-Migrate',
         'psycopg2',
         'flask-login>=0.4',
+        'flask-cors',
     ],
     setup_requires=[
         'pytest-runner',
