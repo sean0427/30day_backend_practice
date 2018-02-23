@@ -5,7 +5,7 @@ from http import HTTPStatus
 from flask import request, jsonify
 
 from . import api_orm_helper as helper
-from . import api
+from . import api, auth
 
 from shop.model.Product import Product
 
@@ -21,17 +21,21 @@ def exact_request(json, product=None):
 
     return product
 
-@api.route('/products', methods=['GET', 'POST'])
+@api.route('/products', methods=['GET'])
 def get_list_of_products():
     page = request.args.get('page', default=1, type=int)
     limited = request.args.get('limited', default=1, type=int)
 
-    if request.method == 'POST':
-        return helper.append(exact_request(request.json))
 
     return helper.select_all(Product)
 
+@api.route('/products', methods=['POST'])
+@auth.login_required
+def create_prodcut():
+    return helper.append(exact_request(request.json))
+
 @api.route('/products/<id>', methods=['GET', 'PUT', 'DELETE'])
+@auth.login_required
 def get_product(id):
     product = helper.select_by_id(Product, id)
 

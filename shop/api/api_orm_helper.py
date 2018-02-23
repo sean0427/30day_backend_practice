@@ -51,3 +51,8 @@ def select_by_id(cls, id):
     return db.session.query(cls)\
             .filter(cls.id == id)\
             .one_or_none()
+
+def select_by_field(cls, field, value):
+    return db.session.query(cls)\
+            .filter(field == value)\
+            .one_or_none()

@@ -3,6 +3,7 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from passlib.apps import custom_app_context as pwd_context
 
 from shop.model.BaseModel import BaseModel
 from shop.model.Number import Number
@@ -48,7 +49,7 @@ class TestNumberModel():
         result = self.get_default_number(session)
 
         assert not result == None
-        assert result.password == TEST_NUMBER_PASSWORD
+        assert result.verify_password(TEST_NUMBER_PASSWORD)
 
     def test_insert(self, session):
         second_number = Number(SECOND_PASSWORD, SECOND_E_MAIL, NUMBER_CLASS_GOLD)

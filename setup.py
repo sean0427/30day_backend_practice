@@ -10,8 +10,9 @@ setup(
         'Flask-SQLAlchemy>=2.3',
         'Flask-Migrate',
         'psycopg2',
-        'flask-login>=0.4',
-        'flask-cors',
+        'passlib',
+        'itsdangerous',
+        'Flask-HTTPAuth',
     ],
     setup_requires=[
         'pytest-runner',

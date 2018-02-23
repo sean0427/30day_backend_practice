@@ -1,41 +1,46 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import redirect, request, abort, render_template, flash, url_for
-from flask_login import login_required, login_user, logout_user
+from flask import g, jsonify
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, SignatureExpired, BadSignature
 
-from shop import app, login_manager, db
 from shop.model.Number import Number
+from . import db, app, auth
 
-@login_manager.user_loader
-def load_user(email):
-    return db.session.query(Number).filter(Number.e_mail == email).one_or_none()
+DEFUALT_EXPIRE_SECOND = 600
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = load_user(username)
+def verify_auth_token(token):
+    s = Serializer(app.config['SECRET_KEY'])
 
-        if user is not None and user.password == password:
-            login_user(user)
+    try:
+        data = s.loads(token)
+    except SignatureExpired:
+        return None # valid token, but expired
+    except BadSignature:
+        return None # invalid token
 
-            #TODO HTTPS
-            next = request.args.get('next')
-            return redirect(next or url_for('index'))
-        else:
-            flash('Wrong email or password!')
+    return db.session.query(Number).filter(Number.id == data['id']).one_or_none()
 
-    return render_template('login.html')
+def generate_auth_token(user, expiration = DEFUALT_EXPIRE_SECOND):
+    if isinstance(user, Number):
+        s = Serializer(app.config['SECRET_KEY'], expires_in = expiration)
+        return s.dumps({ 'id': user.id })
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return "logout"
+@auth.verify_password
+def verify_password(email_or_token, password):
+    user = verify_auth_token(email_or_token)
 
-@login_manager.unauthorized_handler
-def unauthorized_handler():
-    flash('unauthorized')
-    return redirect(url_for('index'))
+    if not user:
+        user = db.session.query(Number).filter(Number.e_mail == email_or_token).one_or_none()
+
+        if not user or not user.verify_password(password):
+            return False
+
+    g.user = user
+    return True
+
+@app.route('/token')
+@auth.login_required
+def get_auth_token():
+    token = generate_auth_token(g.user)
+    return jsonify({ 'token': token.decode('ascii') })

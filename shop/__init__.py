@@ -5,11 +5,9 @@ import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-
+from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__, instance_relative_config=True)
-
 
 running_config = os.getenv('APP_RUNNING_ENV', '')
 
@@ -28,9 +26,7 @@ print('running config file {}'.format(running_config))
 app.config.from_pyfile('config.py', silent=True)
 
 db = SQLAlchemy(app)
-
-login_manager = LoginManager()
-login_manager.init_app(app)
+auth = HTTPBasicAuth()
 
 #views
 import shop.index
