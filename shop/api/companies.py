@@ -4,7 +4,7 @@
 from http import HTTPStatus
 from flask import jsonify, request
 
-from . import api
+from . import api, auth
 
 from shop.model.Company import Company
 from . import api_orm_helper as helper
@@ -25,22 +25,31 @@ def exact_request(json, company = None):
 
     return company
 
-@api.route('/companies', methods=['GET', 'POST'])
-def companies():
-    if request.method == 'POST':
-        return helper.append(exact_request(request.json))
-
+@api.route('/companies', methods=['GET'])
+def get_companies():
     return helper.select_all(Company)
 
-@api.route('/companies/<id>', methods=['GET', 'PUT', 'DELETE'])
+@api.route('/companies', methods=['POST'])
+@auth.login_required
+def create_companies():
+    return helper.append(exact_request(request.json))
+
+@api.route('/companies/<id>', methods=['GET'])
+def get_company(id):
+    company = helper.select_by_id(Company, id)
+
+    if company:
+        return company, HTTPStatus.OK
+
+    return helper.not_found()
+
+@api.route('/companies/<id>', methods=['PUT', 'DELETE'])
+@auth.login_required
 def company(id):
     company = helper.select_by_id(Company, id)
 
     if not company:
         return helper.not_found()
-
-    if request.method == 'GET':
-        return jsonify(company.serialize()), HTTPStatus.OK
     elif request.method == 'PUT':
         return helper.update(exact_request(request.json, company))
     elif request.method == 'DELETE':
