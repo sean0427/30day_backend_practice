@@ -5,6 +5,7 @@ from flask import request, Blueprint
 
 api = Blueprint('api', __name__)
 
+from . import users
 from . import products
 from . import companies
 from . import language_products
