@@ -38,10 +38,15 @@ Enviroment
 Dependency
 ===
 
+Secuity:
+---
+- [passlib](https://passlib.readthedocs.io/en/stable/): hashing password lib.
+- [itsdangerous](http://pythonhosted.org/itsdangerous/): generator token.
+
 Flask
 ---
 - [flask](http://flask.pocoo.org)
-- [flask-login](https://flask-login.readthedocs.io/)
+- [flaskHttpAuth](https://flask-httpauth.readthedocs.io/en/latest/)
 
 Database
 ---
