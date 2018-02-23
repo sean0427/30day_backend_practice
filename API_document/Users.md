@@ -3,7 +3,7 @@
 register a user.
 
 - URL
-    `users`
+    `/api/users`
 
 - Method
     `POST`
@@ -12,7 +12,7 @@ register a user.
     None
 
 - Data Params
-    content { 
+    content {
         email: 'email@address.com'
         password: 'PASSWORD'
     }
@@ -30,7 +30,7 @@ register a user.
 
 - Simple:
 ``` Javascript (ES6 Style)
-    fetch("/user", {
+    fetch("/api/user", {
         method: 'POST',
         headers: {
             Accept: 'application/json',
