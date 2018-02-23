@@ -14,9 +14,6 @@ running_config = os.getenv('APP_RUNNING_ENV', '')
 if running_config == 'CI':
     app.config.from_object('config.ci')
 elif running_config == 'DEV':
-    from flask_cors import CORS
-    #TODO workaround for test
-    CORS(app, resources={r'/api/*': {'origins': '*'}})
     app.config.from_object('config.dev')
 else:
     app.config.from_object('config.default')
