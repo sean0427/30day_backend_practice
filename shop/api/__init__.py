@@ -9,6 +9,7 @@ from . import products
 from . import companies
 from . import language_products
 from . import product_type
+from . import language
 
 @api.route('/echo/<string:argument>', methods=['GET', 'POST'])
 def echo(argument):
