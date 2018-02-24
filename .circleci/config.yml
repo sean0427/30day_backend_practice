@@ -9,10 +9,6 @@ jobs:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.6.4-jessie-node-browsers
-        environment:
-            APP_RUNNING_ENV = "CI"
-            FLASK_APP = "shop"
-            SECRET_KEY = SECRET_KEY
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -31,6 +27,10 @@ jobs:
             - dev
 
     steps:
+      environment:
+        APP_RUNNING_ENV = CI
+        FLASK_APP = shop
+      
       - checkout
 
       # Download and cache dependencies
@@ -62,7 +62,7 @@ jobs:
           command: |
            . venv/bin/activate
            mkdir test-reports
-           pytest ./tests --junitxml=test-reports/junit.xml
+           python -m pytest ./tests --junitxml=test-reports/junit.xml
            
       # - run:
       #     name: run function tests
