@@ -1,0 +1,9 @@
+pytest
+selenium
+flask>=0.12
+Flask-SQLAlchemy>=2.3
+Flask-Migrate
+psycopg2
+passlib
+itsdangerous
+Flask-HTTPAuth
