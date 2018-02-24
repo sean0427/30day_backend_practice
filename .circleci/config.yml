@@ -26,11 +26,12 @@ jobs:
             - master
             - dev
 
+    environment:
+      APP_RUNNING_ENV = "CI"
+      FLASK_APP = "shop"
+
     steps:
-      environment:
-        APP_RUNNING_ENV = CI
-        FLASK_APP = shop
-      
+
       - checkout
 
       # Download and cache dependencies
