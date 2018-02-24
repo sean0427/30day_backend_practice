@@ -1,4 +1,5 @@
 import os
+import secrets
 
 """Configure file for ci"""""
 TESTING = True
@@ -19,4 +20,4 @@ SQLALCHEMY_DATABASE_URI = \
                 charset='utf8'
         )
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'secrey_key')
+SECRET_KEY = os.getenv('SECRET_KEY', secrets.token_hex(16))

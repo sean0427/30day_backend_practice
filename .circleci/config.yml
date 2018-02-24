@@ -27,8 +27,8 @@ jobs:
             - dev
 
     environment:
-      APP_RUNNING_ENV = "CI"
-      FLASK_APP = "shop"
+        APP_RUNNING_ENV: "CI"
+        FLASK_APP: "shop"
 
     steps:
 
