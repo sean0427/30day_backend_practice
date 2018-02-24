@@ -5,12 +5,9 @@ import json
 
 from http import HTTPStatus
 
-TEST_TEXT = 'TEXT'
-EMPTY_JSON_ARRAY = '[]\n'
+from consts import EMPTY_JSON_ARRAY, CONTENT_TYPE, TEST_TEXT
 
-CONTENT_TYPE = 'application/json'
-
-DATA = dict(
+TEST_USER_DATA = dict(
         email = 'test@test.com',
         password = 'passworddd'
 )
@@ -25,14 +22,14 @@ def test_product_type_api(app):
 
 def test_user_register(app):
     response = app.post(
-            'api/users', data=json.dumps(DATA),
+            'api/users', data=json.dumps(TEST_USER_DATA),
             follow_redirects=True, content_type=CONTENT_TYPE
             )
     
     assert response.status_code == HTTPStatus.CREATED, 'Create new user.'
 
     response = app.post(
-            'api/users', data=json.dumps(DATA),
+            'api/users', data=json.dumps(TEST_USER_DATA),
             follow_redirects=True, content_type=CONTENT_TYPE
             )
     

@@ -39,7 +39,7 @@ def get_company(id):
     company = helper.select_by_id(Company, id)
 
     if company:
-        return company, HTTPStatus.OK
+        return jsonify(company.serialize()), HTTPStatus.OK
 
     return helper.not_found()
 
