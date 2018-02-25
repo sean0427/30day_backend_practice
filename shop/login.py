@@ -19,12 +19,7 @@ def verify_auth_token(token):
     except BadSignature:
         return None # invalid token
 
-    return db.session.query(Number).filter(Number.id == data['id']).one_or_none()
-
-def generate_auth_token(user, expiration = DEFUALT_EXPIRE_SECOND):
-    if isinstance(user, Number):
-        s = Serializer(app.config['SECRET_KEY'], expires_in = expiration)
-        return s.dumps({ 'id': user.id })
+    return db.session.query(Number).get(data['id'])
 
 @auth.verify_password
 def verify_password(email_or_token, password):
@@ -38,6 +33,11 @@ def verify_password(email_or_token, password):
 
     g.user = user
     return True
+
+def generate_auth_token(user, expiration = DEFUALT_EXPIRE_SECOND):
+    if isinstance(user, Number):
+        s = Serializer(app.config['SECRET_KEY'], expires_in = expiration)
+        return s.dumps({ 'id': user.id })
 
 @app.route('/token')
 @auth.login_required

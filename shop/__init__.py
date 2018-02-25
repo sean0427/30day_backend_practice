@@ -6,6 +6,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
+from flask_cors import CORS
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -16,7 +17,7 @@ if running_config == 'CI':
 elif running_config == 'DEV':
     from flask_cors import CORS
     #TODO workaround for test
-    CORS(app, resources={r'/api/*': {'origins': '*'}})
+    CORS(app, resources={r'/*': {'origins': '*'}})
     app.config.from_object('config.dev')
 else:
     app.config.from_object('config.default')
