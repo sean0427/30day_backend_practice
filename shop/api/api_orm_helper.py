@@ -11,7 +11,8 @@ def examime_error(func):
     def with_try(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except:
+        except Exception as err:
+            print(err)
             db.session.rollback()
             return bad_request()
     return with_try
