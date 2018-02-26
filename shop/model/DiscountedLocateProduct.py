@@ -28,7 +28,6 @@ class DiscountedLocateProduct(BaseModel):
         self.end_datetime = end_datetime
 
     def __iter__(self):
-        yield 'name', self.name
         yield 'locale_product_id', self.locale_product_id
         yield 'user_classification_id', self.user_classification_id
         yield 'discount', self.discount

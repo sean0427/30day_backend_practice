@@ -14,6 +14,7 @@ from . import companies
 from . import language_products
 from . import product_type
 from . import language
+from . import product_information
 
 
 @api.route('/echo/<string:argument>', methods=['GET', 'POST'])
