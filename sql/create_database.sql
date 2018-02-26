@@ -75,13 +75,13 @@ BEGIN;
         id SERIAL PRIMARY KEY,
         product_id INTEGER REFERENCES Product NOT NULL,
         locale_id INTEGER REFERENCES Locale NOT NULL,
-        price MONEY NOT NULL,
+        price NUMERIC NOT NULL,
         publisher INTEGER REFERENCES Company NOT NULL
     );
 
     CREATE TABLE Discounted_Locate_Product(
         id SERIAL PRIMARY KEY,
-        locale_product_id INTEGER REFERENCES Language_Product NOT NULL,
+        locale_product_id INTEGER REFERENCES Locale_Product NOT NULL,
         user_classification_id INTEGER REFERENCES User_Classification,
         discount INTEGER NOT NULL,
         start_datetime TIMESTAMP NOT NULL,
@@ -93,7 +93,7 @@ BEGIN;
         user_shopping_inforation_id INTEGER REFERENCES User_Classification NOT NULL,
         date TIMESTAMP NOT NULL,
         status INTEGER NOT NULL default 0,
-        total MONEY NOT NULL
+        total NUMERIC NOT NULL
     );
 
     CREATE TABLE Order_Discounted_Locale_Product(
