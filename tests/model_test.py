@@ -27,7 +27,7 @@ MODLES = [
         ProductType('name'),
         Locale('name'),
         LocaleProduct(1, 2, 333.33, 3),
-        DiscountedLocateProduct('name', 1, 2, 30, datetime.now(), datetime.now()),
+        DiscountedLocateProduct(1, 2, 30, datetime.now(), datetime.now()),
         UserClassification('name')
 ]
 
