@@ -15,9 +15,6 @@ running_config = os.getenv('APP_RUNNING_ENV', '')
 if running_config == 'CI':
     app.config.from_object('config.ci')
 elif running_config == 'DEV':
-    from flask_cors import CORS
-    #TODO workaround for test
-    CORS(app, resources={r'/*': {'origins': '*'}})
     app.config.from_object('config.dev')
 else:
     app.config.from_object('config.default')
@@ -36,4 +33,5 @@ import shop.login
 #blueprint
 from shop.api import api
 
+CORS(app, resources={r'/*': {'origins': '*'}})
 app.register_blueprint(api, url_prefix='/api')
