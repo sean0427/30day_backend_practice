@@ -13,6 +13,7 @@ setup(
         'passlib',
         'itsdangerous',
         'Flask-HTTPAuth',
+        'flask-cors',
     ],
     setup_requires=[
         'pytest-runner',
