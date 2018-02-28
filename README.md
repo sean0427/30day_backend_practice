@@ -1,7 +1,7 @@
-Back-End Pratice (TBD)
+BackEnd Pratice
 ===
-Use TDD to practice how to learn how to write backend, use python and flask.
-
+ Learn How to use write backend use flask with unittest. 
+ 
 Build
 ===
 master: [![CircleCI](https://circleci.com/gh/sean0427/backend_practice/tree/master.svg?style=svg)](https://circleci.com/gh/sean0427/backend_practice/tree/master)
@@ -35,28 +35,4 @@ Enviroment
     - Python3.6 venv
     - selenium 3.8.1 
 
-Dependency
-===
-
-Secuity:
----
-- [passlib](https://passlib.readthedocs.io/en/stable/): hashing password lib.
-- [itsdangerous](http://pythonhosted.org/itsdangerous/): generator token.
-
-Flask
----
-- [flask](http://flask.pocoo.org)
-- [flaskHttpAuth](https://flask-httpauth.readthedocs.io/en/latest/)
-
-Database
----
-
-- [SQLAlchemy](https://www.sqlalchemy.org/)
-- Flask-Migrate: flask ORM with SQLAlchemy
-- psycopg2: connect postgreSQL database
-
-Test
----
-
-- [pytest](https://docs.pytest.org)
-- [selenium](http://www.seleniumframework.com)
+Dependency: [Wiki Dependency](https://github.com/sean0427/backend_practice/wiki/Depency-Package)
