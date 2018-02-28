@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -11,6 +12,10 @@ from shop.model.Company import Company
 from shop.model.Product import Product
 from shop.model.ProductType import ProductType
 from shop.model.LanguageProduct import LanguageProduct
+from shop.model.Locale import Locale
+from shop.model.LocaleProduct import LocaleProduct
+from shop.model.DiscountedLocateProduct import DiscountedLocateProduct 
+from shop.model.UserClassification import UserClassification 
 
 MEMORY_ENGINE = 'sqlite:///:memory:'
 
@@ -19,9 +24,12 @@ MODLES = [
         Product(1, 1),
         LanguageProduct(1, 1, 'name', 'describe', 'image'),
         Language('en', 'English'),
-        ProductType('name')
+        ProductType('name'),
+        Locale('name'),
+        LocaleProduct(1, 2, 333.33, 3),
+        DiscountedLocateProduct('name', 1, 2, 30, datetime.now(), datetime.now()),
+        UserClassification('name')
 ]
-
 
 class TestModel():
     """ Test Models create, select and insert"""
@@ -49,5 +57,5 @@ class TestModel():
         result = session.query(model.__class__).all()
 
         assert len(result) == 1
-        assert result[0] == model, '{}'.format(product)
+        assert result[0] == model, '{}'.format(result)
         assert dict(model)

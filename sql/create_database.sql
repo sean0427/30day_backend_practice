@@ -81,7 +81,7 @@ BEGIN;
 
     CREATE TABLE Discounted_Locate_Product(
         id SERIAL PRIMARY KEY,
-        locale_product_id INTEGER REFERENCES Language_Product NOT NULL,
+        locale_product_id INTEGER REFERENCES Locale_Product NOT NULL,
         user_classification_id INTEGER REFERENCES User_Classification,
         discount INTEGER NOT NULL,
         start_datetime TIMESTAMP NOT NULL,

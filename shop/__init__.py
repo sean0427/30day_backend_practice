@@ -36,4 +36,5 @@ import shop.login
 #blueprint
 from shop.api import api
 
+CORS(app, resources={r'/*': {'origins': '*'}})
 app.register_blueprint(api, url_prefix='/api')
