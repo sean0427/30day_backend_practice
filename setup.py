@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='shop',
     version='0.1',
-    packages=['shop'],
+    packages=['shop', 'config'],
     include_package_data=True,
     install_requires=[
         'flask>=0.12',
