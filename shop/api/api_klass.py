@@ -4,7 +4,7 @@
 from http import HTTPStatus
 from flask.views import MethodView
 from flask import jsonify, request
-from . import auth 
+from . import auth, api
 
 from . import api_orm_helper as helper
 
@@ -18,6 +18,18 @@ def examime_error(func):
             db.session.rollback()
             return bad_request()
     return with_try
+
+def register_api_view_method(name, method_view, key = 'id', key_type = 'int'):
+    route_name = '/{}/'.format(name)
+    route_name_with_arg = '{}<{}:{}>'.format(route_name, key_type, key)
+
+    api.add_url_rule(route_name, defaults = {key: None},
+                             view_func = method_view, methods = ['GET',])
+    #TODO fix post need end of '/'
+    api.add_url_rule('/{}'.format(name), view_func = method_view, methods = ['POST',])
+    api.add_url_rule(route_name_with_arg, view_func = method_view,
+                             methods=['GET', 'PUT', 'DELETE'])
+
 
 def create_api_method_view(exact_function, klass, helper=helper):
     class API(MethodView):
