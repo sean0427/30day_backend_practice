@@ -30,7 +30,6 @@ db = SQLAlchemy(app)
 auth = HTTPBasicAuth()
 
 #views
-import shop.index
 import shop.login
 
 #blueprint
