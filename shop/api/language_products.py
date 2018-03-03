@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from http import HTTPStatus
-from flask import request, jsonify
-
-from . import api_orm_helper as helper
-from . import api, auth
-
+from .api_klass import create_api_method_view, register_api_view_method
 from shop.model.LanguageProduct import LanguageProduct
 
-def exact_request(json, product=None):
+def exact(json, product=None):
     product_id = json['product_id']
     language_id = json['language_id']
     name = json['name']
@@ -27,35 +22,6 @@ def exact_request(json, product=None):
 
     return product
 
-@api.route('/language_products', methods=['GET'])
-def get_list_of_langnague_products():
-    return helper.select_all(LanguageProduct)
-
-@api.route('/language_products', methods=['POST'])
-@auth.login_required
-def create_language_product():
-    return helper.append(exact_request(request.json))
-
-@api.route('/language_products/<id>', methods=['GET'])
-def get_language_product(id):
-    product = helper.select_by_id(LanguageProduct, id)
-
-    if product:
-        return jsonify(product.serialize()), HTTPStatus.OK
-
-    return helper.not_found()
-
-@api.route('/language_products/<id>', methods=['PUT', 'DELETE'])
-@auth.login_required
-def modify_language_product(id):
-    product = helper.select_by_id(LanguageProduct, id)
-
-    if not product:
-        return helper.not_found()
-    elif request.method == 'DELETE':
-        return helper.delete(product)
-    elif request.method == 'PUT':
-        product = exact_request(request.json, product)
-        return helper.update(product)
-
-    return helper.bad_request()
+view_method = create_api_method_view(exact, LanguageProduct)
+products_view = view_method.as_view('language_products_api')
+register_api_view_method('language_products', products_view)
