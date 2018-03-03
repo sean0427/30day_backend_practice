@@ -50,7 +50,7 @@ class TestAPIS:
                 assert false
 
         for key in self.data.keys():
-            assert data[key] == new_data[key]
+            assert data[key] == new_data[key], 'check {}.'.format(key)
 
     def test_get_empty_mutil(self):
         response = self.app.get(self.path, follow_redirects=True)
