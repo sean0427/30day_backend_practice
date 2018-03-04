@@ -32,6 +32,15 @@ get user token
             Accept: 'application/json',
             Authorization: `Basic ${encode}`
         },
-    }).then(reponse => /*do something*/);
+    }).then(response => response.json)
+    .then(json => {
+        const data = json.token.split('.')[1];
+        return JSON.parse(window.atob(data));
+    }).then(json => {
+        if (Date.now() < Date.parse(json.repire_time)) //check token expire
+        
+        //json.user_email
+        //json.user_id
+    });
 ```
 
