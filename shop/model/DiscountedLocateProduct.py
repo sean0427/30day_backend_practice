@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json
-from sqlalchemy import Text, Column, Integer, TIMESTAMP, ForeignKey
+from sqlalchemy import Column, Integer, TIMESTAMP, ForeignKey
 
 from .BaseModel import BaseModel
 from .LocaleProduct import LocaleProduct
