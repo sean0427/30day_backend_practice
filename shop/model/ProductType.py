@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, Integer, Text
+from sqlalchemy import Column, Text
 
 from .BaseModel import BaseModel
 

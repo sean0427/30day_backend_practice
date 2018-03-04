@@ -1,15 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from http import HTTPStatus
-from flask import jsonify, request
 
-from . import api, auth
-
+from .api_klass import create_api_method_view, register_api_view_method
 from shop.model.Company import Company
-from . import api_orm_helper as helper
 
-def exact_request(json, company = None):
+def exact(json, company = None):
     name = json['name']
     address = json['address']
     telephone = json['telephone']
@@ -25,34 +21,6 @@ def exact_request(json, company = None):
 
     return company
 
-@api.route('/companies', methods=['GET'])
-def get_companies():
-    return helper.select_all(Company)
-
-@api.route('/companies', methods=['POST'])
-@auth.login_required
-def create_companies():
-    return helper.append(exact_request(request.json))
-
-@api.route('/companies/<id>', methods=['GET'])
-def get_company(id):
-    company = helper.select_by_id(Company, id)
-
-    if company:
-        return jsonify(company.serialize()), HTTPStatus.OK
-
-    return helper.not_found()
-
-@api.route('/companies/<id>', methods=['PUT', 'DELETE'])
-@auth.login_required
-def company(id):
-    company = helper.select_by_id(Company, id)
-
-    if not company:
-        return helper.not_found()
-    elif request.method == 'PUT':
-        return helper.update(exact_request(request.json, company))
-    elif request.method == 'DELETE':
-        return helper.delete(company)
-
-    return helper.bad_request()
+view_method = create_api_method_view(exact, Company)
+products_view = view_method.as_view('company_api')
+register_api_view_method('companies', products_view)
